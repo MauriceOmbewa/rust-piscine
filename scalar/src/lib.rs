@@ -2,7 +2,7 @@ pub fn sum(left: u8, right: u8) -> u8 {
     left + right
 }
 
-pub fn diff(left: i8, right: i8) -> i8 {
+pub fn diff(left: i16, right: i16) -> i16 {
     left - right
 }
 
