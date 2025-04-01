@@ -6,7 +6,7 @@ pub fn diff(left: i16, right: i16) -> i16 {
     left - right
 }
 
-pub fn pro(left: u32, right: u32) -> u32 {
+pub fn pro(left: i8, right: i8) -> i8 {
     left * right
 }
 
@@ -24,7 +24,7 @@ mod tests {
 
     #[test]
     fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+        let result = pro(-128, 2);
+        assert_eq!(result, 5);
     }
 }
