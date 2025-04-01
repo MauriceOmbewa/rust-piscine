@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "speed_trransformation"
+name = "speed_transformation"
 version = "0.1.0"
