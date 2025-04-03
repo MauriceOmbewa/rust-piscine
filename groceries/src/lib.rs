@@ -6,13 +6,3 @@ pub fn at_index(slice: &[String], index: usize) -> &str {
     &slice[index]
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = insert(2, 2);
-        assert_eq!(result, 4);
-    }
-}
