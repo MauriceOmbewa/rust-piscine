@@ -15,6 +15,8 @@ pub fn first_subword(mut s: String) -> String {
             for c in chars {
                 if c.is_ascii_uppercase(){
                     break;
+                } else if c == '_'{
+                    break;
                 }
                 index += 1;
             }
