@@ -1,3 +1,4 @@
+#[derive(Clone)]
 pub struct Light {
 	pub alias: String,
 	pub brightness: u8,
