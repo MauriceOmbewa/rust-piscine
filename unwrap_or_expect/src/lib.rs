@@ -25,8 +25,8 @@ pub fn fetch_data(server: Result<&str, &str>, security_level: Security) -> Strin
             Err(_) => panic!("Not found: [MESSAGE]"),
         }
         Security::UnexpectedUrl => match server {
-            Ok(err) => err.to_string(),
-            Err(err) => panic!("{}", err),
+            Ok(err) => panic!("{}", err.to_string()),
+            Err(err) => err.to_string(),
         }
         
     }
