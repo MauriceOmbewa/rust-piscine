@@ -19,7 +19,7 @@ pub fn fetch_data(server: Result<&str, &str>, security_level: Security) -> Strin
         Security::Warning => server.unwrap_or("WARNING: check the server").to_string(),
         Security::NotFound => match server {
             Ok(value) => value.to_string(),
-            Err(_) => panic!("Not found: [MESSAGE]"),
+            Err(err) => panic!("Not found: {}", err),
         }
         Security::UnexpectedUrl => match server {
             Ok(err) => panic!("{}", err.to_string()),
