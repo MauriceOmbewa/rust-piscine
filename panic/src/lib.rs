@@ -5,6 +5,6 @@ pub fn open_file(s: &str) -> File {
 
     match example_file{
         Ok(file) => file,
-        Err(_) => panic!(),
+        Err(err) => panic!("{}", err),
     }
 }

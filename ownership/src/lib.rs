@@ -1,4 +1,4 @@
-pub fn first_subword(mut s: String) -> String {
+pub fn first_subword(s: String) -> String {
     let mut index = 0;
     let mut chars = s.chars();
 
