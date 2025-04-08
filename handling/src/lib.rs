@@ -4,13 +4,12 @@ use std::io::Write;
 
 pub fn open_or_create<P: AsRef<Path>>(path: &P, content: &str) {
     let mut file = OpenOptions::new()
-        .append(true)   // Append to the file.
-        .create(true)   // Create the file if it doesn't exist.
+        .create(true)
+        .append(true)
         .open(path)
-        .expect("Failed to open or create the file");
+        .unwrap();
 
-    writeln!(file, "{}", content)
-        .expect("Failed to write to the file");
+    writeln!(file, "{}", content).unwrap();
 }
 
 // pub fn open_or_create<P: AsRef<Path>>(path: &P, content: &str) {
