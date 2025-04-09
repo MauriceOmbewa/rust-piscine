@@ -1,7 +1,5 @@
-use std::time::{SystemTime, UNIX_EPOCH};
-use chrono::{DateTime, Utc};
+pub use chrono::Utc;
 
-// this will be the structure that will handle the errors
 #[derive(Debug, Eq, PartialEq)]
 pub struct FormError {
     pub form_values: (&'static str, String),
@@ -11,18 +9,10 @@ pub struct FormError {
 
 impl FormError {
     pub fn new(field_name: &'static str, field_value: String, err: &'static str) -> Self {
-        // Get current date and time
-        let now = SystemTime::now();
-        let since_epoch = now.duration_since(UNIX_EPOCH).expect("Time went backwards");
-        let datetime = DateTime::<Utc>::from_timestamp(
-            since_epoch.as_secs() as i64,
-            since_epoch.subsec_nanos(),
-        ).unwrap();
-        
-        // Format date as YYYY-MM-DD HH:MM:SS
-        let date = datetime.format("%Y-%m-%d %H:%M:%S").to_string();
-        
-        Self {
+        let now = Utc::now();
+        let date = now.format("%Y-%m-%d %H:%M:%S").to_string();
+
+        FormError {
             form_values: (field_name, field_value),
             date,
             err,
@@ -38,39 +28,43 @@ pub struct Form {
 
 impl Form {
     pub fn validate(&self) -> Result<(), FormError> {
-        // Validate name is not empty
-        if self.name.is_empty() {
-            return Err(FormError::new(
-                "name", 
-                self.name.clone(), 
-                "Username is empty"
-            ));
+        // 1. Check name is not empty
+        if self.name.trim().is_empty() {
+            return Err(FormError::new("name", self.name.clone(), "Username is empty"));
         }
-        
-        // Validate password length
+
+        // 2. Password must be at least 8 chars
         if self.password.len() < 8 {
             return Err(FormError::new(
-                "password", 
-                self.password.clone(), 
-                "Password should be at least 8 characters long"
+                "password",
+                self.password.clone(),
+                "Password should be at least 8 characters long",
             ));
         }
-        
-        // Check if password contains at least one letter, one number, and one symbol
-        let has_letter = self.password.chars().any(|c| c.is_ascii_alphabetic());
-        let has_number = self.password.chars().any(|c| c.is_ascii_digit());
-        let has_symbol = self.password.chars().any(|c| {
-            c.is_ascii() && !c.is_ascii_alphanumeric()
-        });
-        
+
+        // 3. Password must contain at least one letter, one number, and one symbol
+        let mut has_letter = false;
+        let mut has_number = false;
+        let mut has_symbol = false;
+
+        for c in self.password.chars() {
+            if c.is_ascii_alphabetic() {
+                has_letter = true;
+            } else if c.is_ascii_digit() {
+                has_number = true;
+            } else if c.is_ascii() {
+                has_symbol = true;
+            }
+        }
+
         if !(has_letter && has_number && has_symbol) {
             return Err(FormError::new(
-                "password", 
-                self.password.clone(), 
-                "Password should be a combination of ASCII numbers, letters and symbols"
+                "password",
+                self.password.clone(),
+                "Password should be a combination of ASCII numbers, letters and symbols",
             ));
         }
-        
+
         Ok(())
     }
 }
