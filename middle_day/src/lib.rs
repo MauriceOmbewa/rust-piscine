@@ -1,14 +1,16 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+use chrono::{NaiveDate, Weekday as wd};
+use chrono::Datelike;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+pub fn middle_day(year: i32) -> Option<wd> {
+    let is_leap = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+    
+    if is_leap {
+        return None;
     }
+
+    let middle_day_ordinal = (365 + 1) / 2;
+    
+    let date = NaiveDate::from_yo(year, middle_day_ordinal as u32);
+    
+    Some(date.weekday())
 }
